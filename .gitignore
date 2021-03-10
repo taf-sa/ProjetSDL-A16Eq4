@@ -1,0 +1,11 @@
+*.o
+*.obj
+
+*.gch
+*.pch
+
+*~
+
+tags
+
+build/
