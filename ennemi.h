@@ -6,7 +6,7 @@
 typedef struct
 {
 	SDL_Surface *image;
-	SDL_Rect flipbook[3][8]; // sprite
+	SDL_Surface *animation[3][8];
 	SDL_Rect pose;
 	int direction;
 	int animation;
