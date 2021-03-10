@@ -1,5 +1,5 @@
-#ifndef ENEMY_H_INCLUDED
-#define ENEMY_H_INCLUDED
+#ifndef ENNEMI_H_INCLUDED
+#define ENNEMI_H_INCLUDED
 #include <SDL/SDL.h>
 
 // version initiale
