@@ -10,5 +10,6 @@
 [._]*.sw[a-p]
 
 tags
+savior
 
 build/
