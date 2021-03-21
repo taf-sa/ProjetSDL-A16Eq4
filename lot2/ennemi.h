@@ -25,5 +25,5 @@ int collisionBB(SDL_Rect posp, SDL_Rect pose);
 void deplacerIA(Ennemi* e);
 
 SDL_Surface* chargerImage(char* nomImage);
-
+SDL_Surface* chargerImageBMP(char* nomImage);
 #endif
