@@ -1,4 +1,4 @@
-name: Build status
+name: Build status(lot2)
 
 on:
   push:
