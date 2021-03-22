@@ -13,7 +13,7 @@ void initEnnemi(Ennemi* e)
 
     e->pos = (SDL_Rect){ .x = 0, .y = 0 };
     /** e->animFrame = (SDL_Rect){ .x = (Sint16)width, .y = 0, .w = (Uint16)width, .h = (Uint16)height }; */
-    e->animFrame = (SDL_Rect){ .x = 1, .y = 0, .w = (Uint16)width, .h = (Uint16)height };
+    e->animFrame = (SDL_Rect){ .x = 0, .y = 0, .w = (Uint16)width, .h = (Uint16)height };
     e->direction = 0;
     e->etat = 0;
     e->collision = 0;
@@ -28,12 +28,14 @@ void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 
 void animerEnnemi(Ennemi* e)
 {
-    int i = 1;
-    int width, height;
+    int width, height, currentFrame;
+
     width = (int)e->image->w / 10;
     height = (int)e->image->h / 3;
-
-    e->animFrame.x = (e->animFrame.x + width) % e->image->w;
+    currentFrame = (int)(((SDL_GetTicks() / 100) % 9)) + 1;
+    printf("frame %d\n", currentFrame);
+    /** e->animFrame.x = (e->animFrame.x + width) % e->image->w; */
+    e->animFrame.x = currentFrame * width;
 }
 
 SDL_Surface* chargerImage(char* nomImage)

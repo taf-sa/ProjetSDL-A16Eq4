@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
         SDL_FillRect(fenetre, NULL, color);
         afficherEnnemi(e, fenetre);
         getFramerate(then, frames);
-        SDL_Delay(100);
+        /** SDL_Delay(100); */
     }
 
     SDL_FreeSurface(fenetre);

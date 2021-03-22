@@ -180,7 +180,7 @@ void getFramerate(Uint32 then, Uint32 frames)
     }
 }
 
-void update(stateVariables* sv, void* gameObjects[])
+void update(void* gameObjects[], stateVariables* sv)
 {
     if (sv->winResized) {
         sv->winResized = false;
