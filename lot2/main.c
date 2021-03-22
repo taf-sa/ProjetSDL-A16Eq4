@@ -4,7 +4,6 @@
 #include <string.h>
 
 #define NUM_SPRITES 100
-#define MAX_SPEED 1
 
 int main(int argc, char* argv[])
 {
@@ -18,9 +17,7 @@ int main(int argc, char* argv[])
     int i = 0, done, width, height;
     int numsprites, debug_flip;
     Uint8 video_bpp;
-    Uint32 videoflags;
-    Uint32 background;
-    Uint32 then, now, frames;
+    Uint32 videoflags, background, then, now, frames;
 
     numsprites = NUM_SPRITES;
     videoflags = SDL_SWSURFACE | SDL_ANYFORMAT | SDL_DOUBLEBUF | SDL_RESIZABLE;
@@ -29,37 +26,7 @@ int main(int argc, char* argv[])
     video_bpp = 32;
     debug_flip = 0;
 
-    while (argc > 1) {
-        --argc;
-        if (strcmp(argv[argc - 1], "-width") == 0) {
-            width = atoi(argv[argc]);
-            --argc;
-        } else if (strcmp(argv[argc - 1], "-height") == 0) {
-            height = atoi(argv[argc]);
-            --argc;
-        } else if (strcmp(argv[argc - 1], "-bpp") == 0) {
-            video_bpp = atoi(argv[argc]);
-            videoflags &= ~SDL_ANYFORMAT;
-            --argc;
-        } else if (strcmp(argv[argc], "-fast") == 0) {
-            videoflags = fastestFlags(videoflags, width, height, video_bpp);
-        } else if (strcmp(argv[argc], "-hw") == 0) {
-            videoflags ^= SDL_HWSURFACE;
-        } else if (strcmp(argv[argc], "-flip") == 0) {
-            videoflags ^= SDL_DOUBLEBUF;
-        } else if (strcmp(argv[argc], "-debugflip") == 0) {
-            debug_flip ^= 1;
-        } else if (strcmp(argv[argc], "-fullscreen") == 0) {
-            videoflags ^= SDL_FULLSCREEN;
-        } else if (isdigit(argv[argc][0])) {
-            numsprites = atoi(argv[argc]);
-        } else {
-            fprintf(stderr,
-                "Usage: %s [-bpp N] [-hw] [-flip] [-fast] [-fullscreen] [numsprites]\n",
-                argv[0]);
-            exit(1);
-        }
-    }
+    handleArguments(argc, argv, &width, &height, &video_bpp, &videoflags, &debug_flip, &numsprites);
 
     atexit(clean);
     fenetre = init(width, height, video_bpp, videoflags, false);

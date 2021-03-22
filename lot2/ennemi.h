@@ -11,8 +11,8 @@ typedef struct
     int etat;
     int collision;
     int currentFrame;
-    void (*draw)(SDL_Surface*);
-    void (*miseAJour)();
+    // void (*draw)(SDL_Surface*);
+    // void (*miseAJour)();
 } Ennemi;
 
 void initEnnemi(Ennemi* e);

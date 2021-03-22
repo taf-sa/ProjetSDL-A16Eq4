@@ -4,6 +4,41 @@
 #include <SDL/SDL_image.h>
 #include <stdbool.h>
 
+void handleArguments(int argc, char* argv[], int* width, int* height, Uint8* video_bpp, Uint32* videoflags, int* debug_flip, int* numsprites)
+{
+    while (argc > 1) {
+        --argc;
+        if (strcmp(argv[argc - 1], "-width") == 0) {
+            *width = atoi(argv[argc]);
+            --argc;
+        } else if (strcmp(argv[argc - 1], "-height") == 0) {
+            *height = atoi(argv[argc]);
+            --argc;
+        } else if (strcmp(argv[argc - 1], "-bpp") == 0) {
+            *video_bpp = atoi(argv[argc]);
+            *videoflags &= ~SDL_ANYFORMAT;
+            --argc;
+        } else if (strcmp(argv[argc], "-fast") == 0) {
+            *videoflags = fastestFlags(*videoflags, *width, *height, *video_bpp);
+        } else if (strcmp(argv[argc], "-hw") == 0) {
+            *videoflags ^= SDL_HWSURFACE;
+        } else if (strcmp(argv[argc], "-flip") == 0) {
+            *videoflags ^= SDL_DOUBLEBUF;
+        } else if (strcmp(argv[argc], "-debugflip") == 0) {
+            *debug_flip ^= 1;
+        } else if (strcmp(argv[argc], "-fullscreen") == 0) {
+            *videoflags ^= SDL_FULLSCREEN;
+        } else if (isdigit(argv[argc][0])) {
+            *numsprites = atoi(argv[argc]);
+        } else {
+            fprintf(stderr,
+                "Usage: %s [-bpp N] [-hw] [-flip] [-fast] [-fullscreen] [numsprites]\n",
+                argv[0]);
+            exit(1);
+        }
+    }
+}
+
 SDL_Surface* init(int w, int h, Uint8 video_bpp, Uint32 videoFlags, bool fullscreen)
 {
     SDL_Surface* screen;
