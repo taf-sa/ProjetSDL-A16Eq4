@@ -1,4 +1,5 @@
 #include "jeu.h"
+#include "ennemi.h"
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <stdbool.h>
@@ -90,4 +91,57 @@ Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp)
 
     /* Return the flags */
     return (flags);
+}
+
+void handleEvents(int* done, SDL_Surface* fenetre, Uint8 video_bpp, Uint32 videoflags)
+{
+    SDL_Event event;
+    /* Check for events */
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_MOUSEBUTTONDOWN:
+            // is this working?
+            SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
+            break;
+        case SDL_KEYDOWN:
+            /* Any keypress quits the app... */
+            *done = 1;
+            break;
+        case SDL_VIDEORESIZE:
+            // resizing the window
+            fenetre = SDL_SetVideoMode(event.resize.w, event.resize.h, video_bpp, videoflags);
+            break;
+        case SDL_QUIT:
+            *done = 1;
+            break;
+
+            break;
+        }
+    }
+}
+
+void getFramerate(Uint32 then, Uint32 frames)
+{
+    Uint32 now;
+    /* Print out some timing information */
+    now = SDL_GetTicks();
+    if (now > then) {
+        printf("%.0f frames per second\n",
+            ((double)frames * 1000) / (now - then));
+    }
+}
+
+void update(void* gameObjects[])
+{
+    for (int i = 0; i < 10; i++) {
+        /** ((Ennemi*)(gameObjects[i]))->miseAJour(); */
+    }
+}
+
+void render(void* gameObjects[], SDL_Surface* fenetre)
+{
+    SDL_Flip(fenetre);
+    for (int i = 0; i < 10; i++) {
+        /** ((Ennemi*)(gameObjects[i]))->draw(fenetre); */
+    }
 }

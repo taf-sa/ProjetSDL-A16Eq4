@@ -2,19 +2,17 @@
 #define ENNEMI_H_INCLUDED
 #include <SDL/SDL.h>
 
-enum etats { bien,
-    pasBien };
-
 typedef struct
 {
     SDL_Surface* image;
-    SDL_Surface* animation[3][8];
     SDL_Rect pos;
+    SDL_Rect animFrame;
     int direction;
-    int animations;
-    int distance;
-    enum etats etat;
+    int etat;
     int collision;
+    int currentFrame;
+    void (*draw)(SDL_Surface*);
+    void (*miseAJour)();
 } Ennemi;
 
 void initEnnemi(Ennemi* e);

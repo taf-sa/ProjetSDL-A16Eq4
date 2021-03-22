@@ -6,17 +6,34 @@
 
 void initEnnemi(Ennemi* e)
 {
+    int width, height;
     e->image = chargerImage("ressources/sonic.png");
-    e->pos = (SDL_Rect){ .x = 0, .y = 0, .w = 100, .h = 200 };
+    width = (int)e->image->w / 10;
+    height = (int)e->image->h / 3;
+
+    e->pos = (SDL_Rect){ .x = 0, .y = 0 };
+    /** e->animFrame = (SDL_Rect){ .x = (Sint16)width, .y = 0, .w = (Uint16)width, .h = (Uint16)height }; */
+    e->animFrame = (SDL_Rect){ .x = 1, .y = 0, .w = (Uint16)width, .h = (Uint16)height };
     e->direction = 0;
-    e->etat = bien;
+    e->etat = 0;
     e->collision = 0;
+    e->currentFrame = 1;
 }
 
 void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 {
-    SDL_BlitSurface(e.image, &(e.pos), fenetre, NULL);
+    SDL_BlitSurface(e.image, &(e.animFrame), fenetre, NULL);
     SDL_Flip(fenetre);
+}
+
+void animerEnnemi(Ennemi* e)
+{
+    int i = 1;
+    int width, height;
+    width = (int)e->image->w / 10;
+    height = (int)e->image->h / 3;
+
+    e->animFrame.x = (e->animFrame.x + width) % e->image->w;
 }
 
 SDL_Surface* chargerImage(char* nomImage)

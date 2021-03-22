@@ -8,10 +8,14 @@
 
 int main(int argc, char* argv[])
 {
+    int nbGameObjects = 0;
+    /** int* gameObjects; // array of all game objects */
+    /** Ennemi* EnnemiOjbjects; // array of enemies */
+    void* gameObjects[10];
+    Ennemi ennemis[10];
     Ennemi e;
     SDL_Surface* fenetre;
-    SDL_Event event;
-    int i, done, width, height;
+    int i = 0, done, width, height;
     int numsprites, debug_flip;
     Uint8 video_bpp;
     Uint32 videoflags;
@@ -57,50 +61,31 @@ int main(int argc, char* argv[])
         }
     }
 
-    //atexit(clean);
+    atexit(clean);
     fenetre = init(width, height, video_bpp, videoflags, false);
 
     initEnnemi(&e);
+    gameObjects[i] = &e;
+
+    Uint32 color = SDL_MapRGB(e.image->format, 0, 0, 0);
+    frames = 0;
+    done = 0;
     afficherEnnemi(e, fenetre);
 
-    frames = 0;
-    then = SDL_GetTicks();
-    done = 0;
     while (!done) {
-        /* Check for events */
         ++frames;
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-            case SDL_MOUSEBUTTONDOWN:
-                // is this working?
-                SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
-                break;
-            case SDL_KEYDOWN:
-                /* Any keypress quits the app... */
-                done = 1;
-                break;
-            case SDL_VIDEORESIZE:
-                // resizing the window
-                fenetre = SDL_SetVideoMode(event.resize.w, event.resize.h, video_bpp, videoflags);
-                break;
-            case SDL_QUIT:
-                done = 1;
-                break;
-            default:
-                break;
-            }
-        }
-    }
-    /** SDL_Delay(1000); */
-
-    /* Print out some timing information */
-    now = SDL_GetTicks();
-    if (now > then) {
-        printf("%2.2f frames per second\n",
-            ((double)frames * 1000) / (now - then));
+        e.currentFrame = frames;
+        then = SDL_GetTicks();
+        handleEvents(&done, fenetre, video_bpp, videoflags);
+        /** update(gameObjects); */
+        /** render(gameObjects, fenetre); */
+        animerEnnemi(&e);
+        SDL_FillRect(fenetre, NULL, color);
+        afficherEnnemi(e, fenetre);
+        getFramerate(then, frames);
+        SDL_Delay(100);
     }
 
     SDL_FreeSurface(fenetre);
-    clean();
     return 0;
 }
