@@ -112,7 +112,8 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
             SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
             break;
         case SDL_KEYDOWN:
-            sv->done = true;
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+                sv->done = true;
             break;
         case SDL_VIDEORESIZE:
             // resize the window
