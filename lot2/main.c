@@ -1,7 +1,7 @@
-#include "ennemi.h"
+#include "gameObjects.h"
 #include "jeu.h"
-#include <SDL/SDL.h>
 #include <string.h>
+#include <time.h>
 
 int main(int argc, char* argv[])
 {
@@ -10,36 +10,37 @@ int main(int argc, char* argv[])
     /** Ennemi* EnnemiOjbjects; // array of enemies */
     void* gameObjects[10];
     Ennemi ennemis[10];
-    Ennemi e;
+    EnemyObject eo;
     int i = 0;
     Uint32 then, frames;
-    SDL_Surface* fenetre;
     stateVariables sv;
+    Ennemi e;
 
     atexit(clean);
-    fenetre = init(argc, argv, &sv);
+    sv.fenetre = init(argc, argv, &sv);
 
-    initEnnemi(&e);
-    gameObjects[i] = &e;
+    /** initEnnemi(&e); */
+    initEnemyObject(&eo, &e);
+    gameObjects[i++] = &eo;
 
-    Uint32 color = SDL_MapRGB(e.image->format, 0, 0, 0);
+    Uint32 color = SDL_MapRGB(eo.e->image->format, 0, 0, 0);
     frames = 0;
-    afficherEnnemi(e, fenetre);
+    //afficherEnnemi(e, fenetre);
 
     while (!sv.done) {
         ++frames;
-        e.currentFrame = frames;
         then = SDL_GetTicks();
-        handleEvents(fenetre, &sv);
-        /** update(gameObjects); */
-        /** render(gameObjects, fenetre); */
-        animerEnnemi(&e);
-        SDL_FillRect(fenetre, NULL, color);
-        afficherEnnemi(e, fenetre);
+        handleEvents(sv.fenetre, &sv);
+        /** afficherEnnemi(e, sv.fenetre); */
+        update(gameObjects, &sv);
+        /** render(gameObjects, sv.fenetre); */
+        //animerEnnemi(&e);
+        SDL_FillRect(sv.fenetre, NULL, color);
+        //afficherEnnemi(e, fenetre);
         getFramerate(then, frames);
         /** SDL_Delay(100); */
     }
 
-    SDL_FreeSurface(fenetre);
+    SDL_FreeSurface(sv.fenetre);
     return 0;
 }

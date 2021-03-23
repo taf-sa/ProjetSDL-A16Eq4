@@ -1,8 +1,4 @@
 #include "ennemi.h"
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_video.h>
-#include <time.h>
 
 void initEnnemi(Ennemi* e)
 {
@@ -17,7 +13,6 @@ void initEnnemi(Ennemi* e)
     e->direction = 0;
     e->etat = 0;
     e->collision = 0;
-    e->currentFrame = 1;
 }
 
 void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
@@ -33,7 +28,7 @@ void animerEnnemi(Ennemi* e)
     width = (int)e->image->w / 10;
     height = (int)e->image->h / 3;
     currentFrame = (int)(((SDL_GetTicks() / 100) % 9)) + 1;
-    printf("frame %d\n", currentFrame);
+    /** printf("frame %d\n", currentFrame); */
     /** e->animFrame.x = (e->animFrame.x + width) % e->image->w; */
     e->animFrame.x = currentFrame * width;
 }

@@ -1,6 +1,8 @@
 #ifndef JEU_H_INCLUDED
 #define JEU_H_INCLUDED
+#include "ennemi.h"
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include <stdbool.h>
 
 typedef struct

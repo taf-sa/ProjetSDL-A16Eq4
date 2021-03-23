@@ -1,45 +1,7 @@
 #include "jeu.h"
-#include "ennemi.h"
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <stdbool.h>
+#include "gameObjects.h"
 
 #define NUM_SPRITES 100
-
-void handleArguments(int argc, char* argv[], stateVariables* sv)
-{
-    while (argc > 1) {
-        --argc;
-        if (strcmp(argv[argc - 1], "-width") == 0) {
-            sv->winWidth = atoi(argv[argc]);
-            --argc;
-        } else if (strcmp(argv[argc - 1], "-height") == 0) {
-            sv->winHeight = atoi(argv[argc]);
-            --argc;
-        } else if (strcmp(argv[argc - 1], "-bpp") == 0) {
-            sv->video_bpp = atoi(argv[argc]);
-            sv->videoFlags &= ~SDL_ANYFORMAT;
-            --argc;
-        } else if (strcmp(argv[argc], "-fast") == 0) {
-            sv->videoFlags = fastestFlags(sv->videoFlags, sv->winWidth, sv->winHeight, sv->video_bpp);
-        } else if (strcmp(argv[argc], "-hw") == 0) {
-            sv->videoFlags ^= SDL_HWSURFACE;
-        } else if (strcmp(argv[argc], "-flip") == 0) {
-            sv->videoFlags ^= SDL_DOUBLEBUF;
-        } else if (strcmp(argv[argc], "-debugflip") == 0) {
-            sv->debug_flip ^= 1;
-        } else if (strcmp(argv[argc], "-fullscreen") == 0) {
-            sv->videoFlags ^= SDL_FULLSCREEN;
-        } else if (isdigit(argv[argc][0])) {
-            sv->numsprites = atoi(argv[argc]);
-        } else {
-            fprintf(stderr,
-                "Usage: %s [-bpp N] [-hw] [-flip] [-fast] [-fullscreen] [numsprites]\n",
-                argv[0]);
-            exit(1);
-        }
-    }
-}
 
 SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
 {
@@ -90,15 +52,27 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     return screen;
 }
 
-void initStateVariables(stateVariables* sv)
+void update(void* gameObjects[], stateVariables* sv)
 {
-    sv->numsprites = NUM_SPRITES;
-    sv->videoFlags = SDL_SWSURFACE | SDL_ANYFORMAT | SDL_DOUBLEBUF | SDL_RESIZABLE;
-    sv->winWidth = 640;
-    sv->winHeight = 480;
-    sv->video_bpp = 32;
-    sv->debug_flip = 0;
-    sv->done = false;
+    /** if (sv->winResized) { */
+    /**     sv->winResized = false; */
+    /**     sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags); */
+    /** } */
+
+    //NULL -> (null references)
+    for (int i = 0; i < 1; i++) {
+        EnemyObject* eo;
+        eo = ((EnemyObject*)(gameObjects[i]));
+        eo->afficherEnnemi(*(eo->e), sv->fenetre);
+        eo->animerEnnemi(eo->e);
+    }
+}
+
+void render(void* gameObjects[], SDL_Surface* fenetre)
+{
+    for (int i = 0; i < 1; i++) {
+    }
+    SDL_Flip(fenetre);
 }
 
 void clean()
@@ -108,6 +82,54 @@ void clean()
     printf("Quiting SDL.\n");
     SDL_Quit();
     printf("Quiting....\n");
+}
+
+void getFramerate(Uint32 then, Uint32 frames)
+{
+    Uint32 now;
+    /* Print out some timing information */
+    now = SDL_GetTicks();
+    if (now > then) {
+        printf("%.0f frames per second\n",
+            ((double)frames * 1000) / (now - then));
+    }
+}
+
+void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
+{
+    SDL_Event event;
+    /* Check for events */
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_MOUSEBUTTONDOWN:
+            // is this working?
+            SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
+            break;
+        case SDL_KEYDOWN:
+            /* Any keypress quits the app... */
+            sv->done = true;
+            break;
+        case SDL_VIDEORESIZE:
+            // resizing the window
+            sv->winResized = true;
+            break;
+        case SDL_QUIT:
+            sv->done = true;
+            break;
+
+            break;
+        }
+    }
+}
+void initStateVariables(stateVariables* sv)
+{
+    sv->numsprites = NUM_SPRITES;
+    sv->videoFlags = SDL_SWSURFACE | SDL_ANYFORMAT | SDL_DOUBLEBUF | SDL_RESIZABLE;
+    sv->winWidth = 640;
+    sv->winHeight = 480;
+    sv->video_bpp = 32;
+    sv->debug_flip = 0;
+    sv->done = false;
 }
 
 /* This is a way of telling whether or not to use hardware surfaces */
@@ -142,60 +164,37 @@ Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp)
     return (flags);
 }
 
-void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
+void handleArguments(int argc, char* argv[], stateVariables* sv)
 {
-    SDL_Event event;
-    /* Check for events */
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-        case SDL_MOUSEBUTTONDOWN:
-            // is this working?
-            SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
-            break;
-        case SDL_KEYDOWN:
-            /* Any keypress quits the app... */
-            sv->done = true;
-            break;
-        case SDL_VIDEORESIZE:
-            // resizing the window
-            sv->winResized = true;
-            break;
-        case SDL_QUIT:
-            sv->done = true;
-            break;
-
-            break;
+    while (argc > 1) {
+        --argc;
+        if (strcmp(argv[argc - 1], "-width") == 0) {
+            sv->winWidth = atoi(argv[argc]);
+            --argc;
+        } else if (strcmp(argv[argc - 1], "-height") == 0) {
+            sv->winHeight = atoi(argv[argc]);
+            --argc;
+        } else if (strcmp(argv[argc - 1], "-bpp") == 0) {
+            sv->video_bpp = atoi(argv[argc]);
+            sv->videoFlags &= ~SDL_ANYFORMAT;
+            --argc;
+        } else if (strcmp(argv[argc], "-fast") == 0) {
+            sv->videoFlags = fastestFlags(sv->videoFlags, sv->winWidth, sv->winHeight, sv->video_bpp);
+        } else if (strcmp(argv[argc], "-hw") == 0) {
+            sv->videoFlags ^= SDL_HWSURFACE;
+        } else if (strcmp(argv[argc], "-flip") == 0) {
+            sv->videoFlags ^= SDL_DOUBLEBUF;
+        } else if (strcmp(argv[argc], "-debugflip") == 0) {
+            sv->debug_flip ^= 1;
+        } else if (strcmp(argv[argc], "-fullscreen") == 0) {
+            sv->videoFlags ^= SDL_FULLSCREEN;
+        } else if (isdigit(argv[argc][0])) {
+            sv->numsprites = atoi(argv[argc]);
+        } else {
+            fprintf(stderr,
+                "Usage: %s [-bpp N] [-hw] [-flip] [-fast] [-fullscreen] [numsprites]\n",
+                argv[0]);
+            exit(1);
         }
-    }
-}
-
-void getFramerate(Uint32 then, Uint32 frames)
-{
-    Uint32 now;
-    /* Print out some timing information */
-    now = SDL_GetTicks();
-    if (now > then) {
-        printf("%.0f frames per second\n",
-            ((double)frames * 1000) / (now - then));
-    }
-}
-
-void update(void* gameObjects[], stateVariables* sv)
-{
-    if (sv->winResized) {
-        sv->winResized = false;
-        sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
-    }
-
-    for (int i = 0; i < 10; i++) {
-        /** ((Ennemi*)(gameObjects[i]))->miseAJour(); */
-    }
-}
-
-void render(void* gameObjects[], SDL_Surface* fenetre)
-{
-    SDL_Flip(fenetre);
-    for (int i = 0; i < 10; i++) {
-        /** ((Ennemi*)(gameObjects[i]))->draw(fenetre); */
     }
 }
