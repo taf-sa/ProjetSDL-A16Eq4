@@ -63,15 +63,15 @@ void update(void* gameObjects[], stateVariables* sv)
     for (int i = 0; i < 1; i++) {
         EnemyObject* eo;
         eo = ((EnemyObject*)(gameObjects[i]));
-        eo->afficherEnnemi(*(eo->e), sv->fenetre);
-        eo->animerEnnemi(eo->e);
+        eo->afficherEnnemi(eo->e, sv->fenetre);
+        eo->animerEnnemi(&(eo->e));
     }
 }
 
 void render(void* gameObjects[], SDL_Surface* fenetre)
 {
-    for (int i = 0; i < 1; i++) {
-    }
+    /** for (int i = 0; i < 1; i++) { */
+    /** } */
     SDL_Flip(fenetre);
 }
 
@@ -84,21 +84,23 @@ void clean()
     printf("Quiting....\n");
 }
 
-void getFramerate(Uint32 then, Uint32 frames)
+void getFrameRate(Uint32 then, Uint32 frames)
 {
-    Uint32 now;
-    /* Print out some timing information */
+    Uint32 now, timeInterval, delay;
+    double fps;
     now = SDL_GetTicks();
-    if (now > then) {
-        printf("%.0f frames per second\n",
-            ((double)frames * 1000) / (now - then));
+
+    timeInterval = now - then;
+    delay = (Uint32)(((now / 300) % 10));
+    fps = (double)frames * 1000 / timeInterval;
+    if (timeInterval > 0 && delay == 9) {
+        printf("%.0f frames per second\n", fps);
     }
 }
 
 void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
 {
     SDL_Event event;
-    /* Check for events */
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_MOUSEBUTTONDOWN:
@@ -106,11 +108,10 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
             SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
             break;
         case SDL_KEYDOWN:
-            /* Any keypress quits the app... */
             sv->done = true;
             break;
         case SDL_VIDEORESIZE:
-            // resizing the window
+            // resize the window
             sv->winResized = true;
             break;
         case SDL_QUIT:
@@ -160,7 +161,6 @@ Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp)
         }
     }
 
-    /* Return the flags */
     return (flags);
 }
 

@@ -34,17 +34,3 @@ endef
 
 .ONESHELL:
 .PHONY: all clean
-
-#%.debug: % makefile
-#	objcopy --only-keep-debug $< $@
-
-#%.o : %.c
-#	$(CC) -c $(CFLAGS) $< -o $@
-
-#$(OBJECTS): %.o: %.c makefile
-#	$(CC) $(CFLAGS) -c $<
-
-#object: $(SOURCES)
-
-##	$(CC) $(CFLAGS) $(CSDL) $^
-

@@ -2,7 +2,6 @@
 #define ENNEMI_H
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-#include <SDL/SDL_video.h>
 
 typedef struct
 {
@@ -12,9 +11,6 @@ typedef struct
     int direction;
     int etat;
     int collision;
-    //int currentFrame;
-    // void (*draw)(SDL_Surface*);
-    // void (*miseAJour)();
 } Ennemi;
 
 void initEnnemi(Ennemi* e);

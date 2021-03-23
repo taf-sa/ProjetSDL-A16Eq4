@@ -1,8 +1,9 @@
 #include "gameObjects.h"
 
-void initEnemyObject(EnemyObject* eo, Ennemi* e)
+void initEnemyObject(EnemyObject* eo)
 {
-    initEnnemi(e);
+    Ennemi e;
+    initEnnemi(&e);
     eo->e = e;
     eo->afficherEnnemi = afficherEnnemi;
     eo->animerEnnemi = animerEnnemi;

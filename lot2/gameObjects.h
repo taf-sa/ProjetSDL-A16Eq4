@@ -6,11 +6,11 @@
 
 typedef struct
 {
-    Ennemi* e;
+    Ennemi e;
     void (*afficherEnnemi)(Ennemi, SDL_Surface*);
     void (*animerEnnemi)(Ennemi*);
 
 } EnemyObject;
 
-void initEnemyObject(EnemyObject* eo, Ennemi* e);
+void initEnemyObject(EnemyObject* eo);
 #endif
