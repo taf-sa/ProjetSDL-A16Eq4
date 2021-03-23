@@ -8,7 +8,7 @@ void initEnnemi(Ennemi* e)
     height = e->image->h / 3;
 
     e->animFrame = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
-    e->pos = (SDL_Rect){ .x = 300, .y = 80, .w = width, .h = height };
+    e->pos = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
     e->direction = 0;
     e->etat = 0;
     e->collision = 0;
@@ -16,7 +16,7 @@ void initEnnemi(Ennemi* e)
 
 void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 {
-    SDL_FillRect(fenetre, &e.pos, SDL_MapRGB(e.image->format, 0, 0, 0));
+    /** SDL_FillRect(fenetre, &e.pos, SDL_MapRGB(e.image->format, 0, 0, 0)); */
     /** SDL_UpdateRect(fenetre, 0, 0, 0, 0); */
     SDL_BlitSurface(e.image, &(e.animFrame), fenetre, &e.pos);
 }
@@ -32,6 +32,12 @@ void animerEnnemi(Ennemi* e)
 void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre)
 {
     animerEnnemi(e);
+    e->pos.x += e->animFrame.w;
+    if ((e->pos.x + e->animFrame.w) >= fenetre->w) {
+        e->pos.x = 0;
+        e->pos.y += e->animFrame.h;
+    }
+    SDL_Delay(1000);
 }
 
 SDL_Surface* chargerImage(char* nomImage)

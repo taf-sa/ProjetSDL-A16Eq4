@@ -1,5 +1,6 @@
 #include "gameObjects.h"
 #include "jeu.h"
+#include <SDL/SDL_video.h>
 #include <string.h>
 #include <time.h>
 
@@ -23,8 +24,8 @@ int main(int argc, char* argv[])
         ++frames;
         then = SDL_GetTicks();
         handleEvents(sv.fenetre, &sv);
-        update(gameObjects, &sv);
         render(gameObjects, sv.fenetre);
+        update(gameObjects, &sv);
         getFrameRate(then, frames);
     }
 

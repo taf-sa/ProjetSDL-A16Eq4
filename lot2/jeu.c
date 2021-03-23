@@ -54,10 +54,11 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
 
 void update(void* gameObjects[], stateVariables* sv)
 {
-    /** if (sv->winResized) { */
-    /**     sv->winResized = false; */
-    /**     sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags); */
-    /** } */
+    if (sv->winResized) {
+        sv->winResized = false;
+        sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
+    }
+
     EnemyObject* eo;
 
     //NULL-> (null references)
@@ -116,6 +117,8 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
         case SDL_VIDEORESIZE:
             // resize the window
             sv->winResized = true;
+            sv->winWidth = event.resize.w;
+            sv->winHeight = event.resize.h;
             break;
         case SDL_QUIT:
             sv->done = true;
@@ -125,6 +128,7 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
         }
     }
 }
+
 void initStateVariables(stateVariables* sv)
 {
     sv->numsprites = NUM_SPRITES;
