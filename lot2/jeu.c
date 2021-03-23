@@ -60,7 +60,7 @@ void update(void* gameObjects[], stateVariables* sv)
     /** } */
     EnemyObject* eo;
 
-    //NULL -> (null references)
+    //NULL-> (null references)
     for (int i = 0; i < 1; i++) {
         eo = ((EnemyObject*)(gameObjects[i]));
         /** eo->draw(eo->e, sv->fenetre); */
@@ -70,12 +70,10 @@ void update(void* gameObjects[], stateVariables* sv)
 
 void render(void* gameObjects[], SDL_Surface* fenetre)
 {
-    /** for (int i = 0; i < 1; i++) { */
-    /** } */
     EnemyObject* eo;
     for (int i = 0; i < 1; i++) {
         eo = ((EnemyObject*)(gameObjects[i]));
-        afficherEnnemi(eo->e, fenetre);
+        eo->draw(eo->e, fenetre);
     }
     SDL_Flip(fenetre);
 }
