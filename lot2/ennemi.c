@@ -32,7 +32,6 @@ void animerEnnemi(Ennemi* e)
 void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre)
 {
     animerEnnemi(e);
-    afficherEnnemi(*e, fenetre);
 }
 
 SDL_Surface* chargerImage(char* nomImage)
