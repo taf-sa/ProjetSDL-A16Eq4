@@ -7,8 +7,8 @@
 typedef struct
 {
     Ennemi e;
-    void (*afficherEnnemi)(Ennemi, SDL_Surface*);
-    void (*animerEnnemi)(Ennemi*);
+    void (*miseAJour)(Ennemi*, SDL_Surface*);
+    void (*draw)(Ennemi, SDL_Surface*);
 
 } EnemyObject;
 

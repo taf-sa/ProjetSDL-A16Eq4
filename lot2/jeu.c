@@ -58,13 +58,13 @@ void update(void* gameObjects[], stateVariables* sv)
     /**     sv->winResized = false; */
     /**     sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags); */
     /** } */
+    EnemyObject* eo;
 
     //NULL -> (null references)
     for (int i = 0; i < 1; i++) {
-        EnemyObject* eo;
         eo = ((EnemyObject*)(gameObjects[i]));
-        eo->afficherEnnemi(eo->e, sv->fenetre);
-        eo->animerEnnemi(&(eo->e));
+        /** eo->draw(eo->e, sv->fenetre); */
+        eo->miseAJour(&(eo->e), sv->fenetre);
     }
 }
 
@@ -93,7 +93,7 @@ void getFrameRate(Uint32 then, Uint32 frames)
     timeInterval = now - then;
     delay = (Uint32)(((now / 300) % 10));
     fps = (double)frames * 1000 / timeInterval;
-    if (timeInterval > 0 && delay == 9) {
+    if (timeInterval > 0 && delay == 1) {
         printf("%.0f frames per second\n", fps);
     }
 }

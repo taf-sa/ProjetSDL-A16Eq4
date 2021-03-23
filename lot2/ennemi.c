@@ -29,6 +29,12 @@ void animerEnnemi(Ennemi* e)
     e->animFrame.x = currentFrame * (e->animFrame.w);
 }
 
+void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre)
+{
+    animerEnnemi(e);
+    afficherEnnemi(*e, fenetre);
+}
+
 SDL_Surface* chargerImage(char* nomImage)
 {
     SDL_Surface* image;
