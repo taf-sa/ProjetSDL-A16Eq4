@@ -21,6 +21,7 @@ typedef struct background
 
 void initialiser_background(background *b);
 void afficher_background(background b,SDL_Surface *screen);
+void scrolling(background *b,int direction);
 
 
 #endif
