@@ -1,0 +1,15 @@
+*.o
+*.obj
+
+*.gch
+*.pch
+
+*~
+
+[._]*.un~
+[._]*.sw[a-p]
+
+tags
+savior
+
+build/
