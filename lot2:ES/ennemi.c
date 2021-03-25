@@ -7,12 +7,12 @@ void initEnnemi(Ennemi* e)
 {
     Uint16 width, height;
     e->image = chargerImage("ressources/sonic4.png");
-    width = e->image->w / nbAnimationFrames; // sprite has 23 frames of animation in in each line
+    width = e->image->w / nbAnimationFrames;
     height = e->image->h;
 
     e->animFrame = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
     e->pos = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
-    e->currentFrame = 0;
+    e->currentAnimFrame = 0;
     e->direction = 0;
     e->etat = 0;
     e->collision = 0;
@@ -32,9 +32,9 @@ void animerEnnemi(Ennemi* e)
     /** SDL_Delay(100); */
     // TODO this method is skipping frames
     /** e->animFrame.x = currentFrame * (e->animFrame.w); */
-    e->animFrame.x = (++(e->currentFrame)) * (e->animFrame.w);
-    if (e->currentFrame == 22)
-        e->currentFrame = 0;
+    e->animFrame.x = (++(e->currentAnimFrame)) * (e->animFrame.w);
+    if (e->currentAnimFrame == 22)
+        e->currentAnimFrame = 0;
 }
 
 void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre)
