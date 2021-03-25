@@ -8,6 +8,7 @@ typedef struct
     SDL_Surface* image;
     SDL_Rect pos;
     SDL_Rect animFrame;
+    int currentFrame;
     int direction;
     int etat;
     int collision;

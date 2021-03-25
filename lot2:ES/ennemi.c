@@ -12,6 +12,7 @@ void initEnnemi(Ennemi* e)
 
     e->animFrame = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
     e->pos = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
+    e->currentFrame = 0;
     e->direction = 0;
     e->etat = 0;
     e->collision = 0;
@@ -26,11 +27,14 @@ void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 
 void animerEnnemi(Ennemi* e)
 {
-    int currentFrame = 1;
-    currentFrame = (int)(((SDL_GetTicks() / 100) % nbAnimationFrames)) + 1;
+    /** currentFrame = (int)(((SDL_GetTicks() / 100) % nbAnimationFrames)) + 1; */
     /** e->animFrame.x = ((e->animFrame.x + e->animFrame.w) % e->image->w) + 1; */
     /** SDL_Delay(100); */
-    e->animFrame.x = currentFrame * (e->animFrame.w); // TODO skips frames
+    // TODO this method is skipping frames
+    /** e->animFrame.x = currentFrame * (e->animFrame.w); */
+    e->animFrame.x = (++(e->currentFrame)) * (e->animFrame.w);
+    if (e->currentFrame == 22)
+        e->currentFrame = 0;
 }
 
 void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre)
