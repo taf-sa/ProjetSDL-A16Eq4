@@ -30,10 +30,11 @@ int main(int argc, char* argv[])
         render(gameObjects, sv.fenetre);
         update(gameObjects, &sv);
 
-        frameTime = SDL_GetTicks() - frameStart;
-        if (frameTime < delayTime) {
-            SDL_Delay((int)(delayTime - frameTime));
-        }
+        // capping frame rate
+        /** frameTime = SDL_GetTicks() - frameStart; */
+        /** if (frameTime < delayTime) { */
+        /**     SDL_Delay((int)(delayTime - frameTime)); */
+        /** } */
 
         getFrameRate(frameStart, frames);
     }
