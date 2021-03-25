@@ -4,7 +4,7 @@ CSDL = `sdl-config --libs --cflags` -lSDL_ttf -lSDL_image -lSDL_mixer
 HEADERS = $(wildcard *.h)
 SOURCES = $(wildcard *.c) 
 OBJECTS = $(SOURCES:.c=.o)
-BIN = savior 
+BIN = lot2 
 
 all: dependencies $(BIN) 
 
