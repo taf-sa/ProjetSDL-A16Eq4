@@ -16,4 +16,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: make
-      run: cd lot2/ && make
+      run: cd lot2\:ES/ && make
