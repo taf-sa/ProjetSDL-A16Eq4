@@ -4,6 +4,8 @@
 *.gch
 *.pch
 
+*.debug
+
 *~
 
 [._]*.un~
