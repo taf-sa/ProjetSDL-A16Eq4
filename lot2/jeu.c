@@ -52,14 +52,14 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     return screen;
 }
 
-void update(void* gameObjects[], stateVariables* sv)
+void update(void** gameObjects, stateVariables* sv)
 {
+    EnemyObject* eo;
+
     if (sv->winResized) {
         sv->winResized = false;
         sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
     }
-
-    EnemyObject* eo;
 
     //NULL-> (null references)
     for (int i = 0; i < 1; i++) {
@@ -92,11 +92,12 @@ void getFrameRate(Uint32 then, Uint32 frames)
 {
     Uint32 now, timeInterval, delay;
     double fps;
-    now = SDL_GetTicks();
 
+    now = SDL_GetTicks();
     timeInterval = now - then;
     delay = (Uint32)(((now / 300) % 10));
     fps = (double)frames * 1000 / timeInterval;
+
     if (timeInterval > 0 && delay == 1) {
         printf("%.0f frames per second\n", fps);
     }
