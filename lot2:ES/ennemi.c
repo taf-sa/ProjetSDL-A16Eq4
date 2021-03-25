@@ -1,12 +1,14 @@
 #include "ennemi.h"
 #include "outils.h"
 
+#define nbAnimationFrames 23
+
 void initEnnemi(Ennemi* e)
 {
     Uint16 width, height;
-    e->image = chargerImage("ressources/sonic.png");
-    width = e->image->w / 10; // sprite has 7 frames of animation in in each line
-    height = e->image->h / 3; // sprite has 3 lines
+    e->image = chargerImage("ressources/sonic4.png");
+    width = e->image->w / nbAnimationFrames; // sprite has 23 frames of animation in in each line
+    height = e->image->h;
 
     e->animFrame = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
     e->pos = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
@@ -25,7 +27,7 @@ void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 void animerEnnemi(Ennemi* e)
 {
     int currentFrame = 1;
-    currentFrame = (int)(((SDL_GetTicks() / 100) % 9)) + 1;
+    currentFrame = (int)(((SDL_GetTicks() / 100) % nbAnimationFrames)) + 1;
     /** e->animFrame.x = ((e->animFrame.x + e->animFrame.w) % e->image->w) + 1; */
     /** SDL_Delay(100); */
     e->animFrame.x = currentFrame * (e->animFrame.w); // TODO skips frames
