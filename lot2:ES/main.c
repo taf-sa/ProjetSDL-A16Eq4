@@ -7,7 +7,9 @@
 int main(int argc, char* argv[])
 {
     int nbGameObjects = 0, i = 0;
-    Uint32 then, frames;
+    int FPS = 60;
+    int delayTime = (int)1000 / FPS;
+    Uint32 frameStart, frames, frameTime, now;
     /** void* gameObjects; //malloc*/
     void* gameObjects[10];
     EnemyObject eo;
@@ -22,11 +24,18 @@ int main(int argc, char* argv[])
     frames = 0;
     while (!sv.done) {
         ++frames;
-        then = SDL_GetTicks();
+        frameStart = SDL_GetTicks();
+
         handleEvents(sv.fenetre, &sv);
         render(gameObjects, sv.fenetre);
         update(gameObjects, &sv);
-        getFrameRate(then, frames);
+
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameTime < delayTime) {
+            SDL_Delay((int)(delayTime - frameTime));
+        }
+
+        getFrameRate(frameStart, frames);
     }
 
     SDL_FreeSurface(sv.fenetre);

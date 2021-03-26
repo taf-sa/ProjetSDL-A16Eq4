@@ -4,6 +4,8 @@
 *.gch
 *.pch
 
+*.debug
+
 *~
 
 [._]*.un~
@@ -11,5 +13,6 @@
 
 tags
 savior
+lot*
 
 build/

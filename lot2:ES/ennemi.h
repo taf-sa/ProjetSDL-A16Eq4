@@ -8,6 +8,7 @@ typedef struct
     SDL_Surface* image;
     SDL_Rect pos;
     SDL_Rect animFrame;
+    int currentFrame;
     int direction;
     int etat;
     int collision;
@@ -21,6 +22,4 @@ int collisionBB(SDL_Rect posp, SDL_Rect pose);
 void deplacerIA(Ennemi* e);
 
 void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre);
-SDL_Surface* chargerImage(char* nomImage);
-SDL_Surface* chargerImageBMP(char* nomImage);
 #endif
