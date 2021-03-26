@@ -1,7 +1,5 @@
 #include "gameObjects.h"
 #include "jeu.h"
-#include <string.h>
-#include <time.h>
 
 #define TICK_INTERVAL 30
 
