@@ -2,6 +2,7 @@
 #include "outils.h"
 
 #define nbAnimationFrames 23
+#define animationRate 10
 
 void initEnnemi(Ennemi* e)
 {
@@ -12,7 +13,8 @@ void initEnnemi(Ennemi* e)
 
     e->animFrame = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
     e->pos = (SDL_Rect){ .x = 0, .y = 0, .w = width, .h = height };
-    e->currentAnimFrame = 0;
+    e->animStartTime = SDL_GetTicks();
+    e->currentAnimFrameIndex = 0;
     e->direction = 0;
     e->etat = 0;
     e->collision = 0;
@@ -27,25 +29,19 @@ void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 
 void animerEnnemi(Ennemi* e)
 {
-    /** currentFrame = (int)(((SDL_GetTicks() / 100) % nbAnimationFrames)) + 1; */
-    /** e->animFrame.x = ((e->animFrame.x + e->animFrame.w) % e->image->w) + 1; */
-    /** SDL_Delay(100); */
-    // TODO this method is skipping frames
-    /** e->animFrame.x = currentFrame * (e->animFrame.w); */
-    e->animFrame.x = (++(e->currentAnimFrame)) * (e->animFrame.w);
-    if (e->currentAnimFrame == 22)
-        e->currentAnimFrame = 0;
+    int hold;
+
+    hold = (((SDL_GetTicks() - e->animStartTime) * animationRate / 1000) % nbAnimationFrames);
+    // TODO animation frame rate depends on game loop frequency set timer? SDL_SetTimer()?
+    /** if (e->currentAnimFrame == 23) */
+    /**     e->currentAnimFrame = 0; */
+    /** e->animFrame.x = (++(e->currentAnimFrame)) * (e->animFrame.w); */
+
+    e->animFrame.x = hold * e->animFrame.w;
 }
 
 void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre)
 {
     animerEnnemi(e);
-    // Debuging
-    /** e->pos.x += e->animFrame.w; */
-    /** if ((e->pos.x + e->animFrame.w) >= fenetre->w) { */
-    /**     e->pos.x = 0; */
-    /**     e->pos.y += e->animFrame.h; */
-    /** } */
-    /** SDL_Delay(700); */
 }
 

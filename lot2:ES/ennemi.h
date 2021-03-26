@@ -1,6 +1,5 @@
 #ifndef ENNEMI_H
 #define ENNEMI_H
-#include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
 typedef struct
@@ -8,7 +7,8 @@ typedef struct
     SDL_Surface* image;
     SDL_Rect pos;
     SDL_Rect animFrame;
-    int currentAnimFrame;
+    Uint32 animStartTime;
+    int currentAnimFrameIndex;
     int direction;
     int etat;
     int collision;
