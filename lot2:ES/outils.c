@@ -41,3 +41,63 @@ SDL_Surface* chargerImageBMP(char* nomImage)
     sprite = temp;
     return sprite;
 }
+
+Timer initTimer()
+{
+    Timer t;
+    t.startTime = 0;
+    t.pausedTime = 0;
+    t.isPaused = false;
+    t.isStarted = false;
+    return t;
+}
+
+void startTimer(Timer* t)
+{
+    t->isStarted = true;
+    t->isPaused = false;
+    t->startTime = SDL_GetTicks();
+    t->pausedTime = 0;
+}
+
+void stopTimer(Timer* t)
+{
+    t->isStarted = false;
+    t->isPaused = false;
+    t->startTime = 0;
+    t->pausedTime = 0;
+}
+
+void pauseTimer(Timer* t)
+{
+    if (t->isStarted && !t->isPaused) {
+        t->isPaused = true;
+
+        t->pausedTime = SDL_GetTicks() - t->startTime;
+        t->startTime = 0;
+    }
+}
+
+void continueTimer(Timer* t)
+{
+    if (t->isStarted && t->isPaused) {
+        t->isPaused = false;
+        t->startTime = SDL_GetTicks() - t->pausedTime;
+        t->pausedTime = 0;
+    }
+}
+
+Uint32 getTime(Timer t)
+{
+    Uint32 time = 0;
+
+    if (t.isStarted) {
+        if (t.isPaused) {
+            time = t.pausedTime;
+        } else {
+            time = SDL_GetTicks() - t.startTime;
+        }
+    }
+
+    return time;
+}
