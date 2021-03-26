@@ -4,13 +4,13 @@
 #include "ennemi.h"
 #include "jeu.h"
 
-typedef struct
-{
+typedef struct enemy EnemyObject;
+typedef struct enemy Personne;
+struct enemy {
     Ennemi e;
     void (*miseAJour)(void*, stateVariables);
     void (*draw)(Ennemi, SDL_Surface*);
-
-} EnemyObject;
+};
 
 void initEnemyObject(EnemyObject* eo);
 #endif
