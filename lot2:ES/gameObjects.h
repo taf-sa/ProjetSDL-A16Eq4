@@ -2,11 +2,12 @@
 #define GAMEOBJECTS_H_INCLUDED
 
 #include "ennemi.h"
+#include "jeu.h"
 
 typedef struct
 {
     Ennemi e;
-    void (*miseAJour)(Ennemi*, SDL_Surface*);
+    void (*miseAJour)(void*, stateVariables);
     void (*draw)(Ennemi, SDL_Surface*);
 
 } EnemyObject;

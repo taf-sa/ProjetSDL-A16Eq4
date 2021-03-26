@@ -79,7 +79,7 @@ void update(void** gameObjects, stateVariables* sv)
     for (int i = 0; i < 1; i++) {
         eo = ((EnemyObject*)(gameObjects[i]));
         /** eo->draw(eo->e, sv->fenetre); */
-        eo->miseAJour(&(eo->e), sv->fenetre);
+        eo->miseAJour(&(eo->e), *sv);
     }
 }
 
@@ -90,7 +90,9 @@ void render(void* gameObjects[], SDL_Surface* fenetre)
         eo = ((EnemyObject*)(gameObjects[i]));
         eo->draw(eo->e, fenetre);
     }
-    SDL_Flip(fenetre);
+    if (SDL_Flip(fenetre) == -1) {
+        exit(1);
+    }
 }
 
 void clean()
