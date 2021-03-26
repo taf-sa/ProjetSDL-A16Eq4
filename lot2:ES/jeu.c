@@ -9,13 +9,26 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     Uint32 flags;
     int initted;
 
-    printf("Initializing SDL.\n");
+    printf("Initializing SDL...\n");
 
+// SDL with X11 doesn't support HWSURFACE
+#ifdef linux // Initialise SDL video system.
+    putenv("SDL_VIDEODRIVER=dga"); // Try dga video driver
+    fprintf(stderr, "WARNING: you must be root to use the DGA driver\n");
+#endif
     if ((SDL_Init(SDL_INIT_EVERYTHING) < 0)) {
-        fprintf(stderr, "Could not initialize SDL: %s.\n", SDL_GetError());
-        exit(-1);
+        fprintf(stderr, "DGA mode not available.\n");
+        fprintf(stderr, "trying x11 (no Support for HWSURFACE)…\n");
+#ifdef linux
+        putenv("SDL_VIDEODRIVER=x11"); // Failover to x11 driver
+#endif
+        if ((SDL_Init(SDL_INIT_EVERYTHING) < 0)) {
+            printf("Unable to initialise SDL: %s\n", SDL_GetError());
+            exit(-1);
+        }
     }
-    printf("SDL initialized.\n");
+
+    printf("SDL initialized...\n");
 
     // load support for the JPG and PNG image formats
     flags = IMG_INIT_JPG | IMG_INIT_PNG;
@@ -37,7 +50,10 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
         exit(-1);
     }
 
-    // TODO This code produces unexpected results for some reason.
+    SDL_WM_SetCaption("Savior", "testIcon");
+
+    // sv->videoFlags & SDL_HWSURFACE is true but not screen->flags & SDL_HWSURFACE
+    // SDL uses X11 video driver by default and it can't access video hardware
     printf("Set%s %dx%dx%d mode\n",
         (screen->flags & SDL_FULLSCREEN) ? " fullscreen" : "",
         screen->w, screen->h, screen->format->BitsPerPixel);
@@ -46,8 +62,6 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     if (screen->flags & SDL_DOUBLEBUF) {
         printf("Double-buffering enabled\n");
     }
-
-    SDL_WM_SetCaption("Savior", "testIcon");
 
     return screen;
 }
@@ -99,7 +113,7 @@ void getFrameRate(Uint32 then, Uint32 frames)
     fps = (double)frames * 1000 / timeInterval;
 
     if (timeInterval > 0 && delay == 1) {
-        printf("%.0f frames per second\n", fps);
+        printf("%.0lf frames per second\n", fps);
     }
 }
 
@@ -125,7 +139,7 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
         case SDL_QUIT:
             sv->done = true;
             break;
-
+        deflaut:
             break;
         }
     }
@@ -134,7 +148,7 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
 void initStateVariables(stateVariables* sv)
 {
     sv->numsprites = NUM_SPRITES;
-    sv->videoFlags = SDL_SWSURFACE | SDL_ANYFORMAT | SDL_DOUBLEBUF | SDL_RESIZABLE;
+    sv->videoFlags = SDL_HWSURFACE | SDL_ANYFORMAT | SDL_DOUBLEBUF | SDL_RESIZABLE;
     sv->winWidth = 640;
     sv->winHeight = 480;
     sv->video_bpp = 32;
@@ -207,3 +221,15 @@ void handleArguments(int argc, char* argv[], stateVariables* sv)
         }
     }
 }
+
+Uint32 timeLeft(Uint32 nextTime)
+{
+    Uint32 now;
+
+    now = SDL_GetTicks();
+    if (nextTime <= now)
+        return 0;
+    else
+        return nextTime - now;
+}
+

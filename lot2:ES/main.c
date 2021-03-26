@@ -1,15 +1,16 @@
 #include "gameObjects.h"
 #include "jeu.h"
-#include <SDL/SDL_video.h>
 #include <string.h>
 #include <time.h>
+
+#define TICK_INTERVAL 30
 
 int main(int argc, char* argv[])
 {
     int nbGameObjects = 0, i = 0;
     int FPS = 60;
     int delayTime = (int)1000 / FPS;
-    Uint32 frameStart, frames, frameTime, now;
+    Uint32 nextTime, frameStart, nbFrames, frameTime;
     /** void* gameObjects; //malloc*/
     void* gameObjects[10];
     EnemyObject eo;
@@ -21,22 +22,27 @@ int main(int argc, char* argv[])
     initEnemyObject(&eo);
     gameObjects[i++] = &eo;
 
-    frames = 0;
+    nbFrames = 0;
+    nextTime = SDL_GetTicks() + TICK_INTERVAL;
     while (!sv.done) {
-        ++frames;
+        ++nbFrames;
         frameStart = SDL_GetTicks();
 
         handleEvents(sv.fenetre, &sv);
         render(gameObjects, sv.fenetre);
         update(gameObjects, &sv);
 
-        // capping frame rate
-        /** frameTime = SDL_GetTicks() - frameStart; */
-        /** if (frameTime < delayTime) { */
-        /**     SDL_Delay((int)(delayTime - frameTime)); */
-        /** } */
+        // capping frame rate. Doesn't seem to be working.
+        frameTime = SDL_GetTicks() - frameStart;
+        if (frameTime < delayTime) {
+            SDL_Delay((int)(delayTime - frameTime));
+        }
 
-        getFrameRate(frameStart, frames);
+        // time based capping
+        /** SDL_Delay(timeLeft(nextTime)); */
+        /** nextTime += TICK_INTERVAL; */
+
+        getFrameRate(frameStart, nbFrames);
     }
 
     SDL_FreeSurface(sv.fenetre);

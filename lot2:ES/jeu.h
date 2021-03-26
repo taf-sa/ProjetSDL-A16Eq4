@@ -22,5 +22,6 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv);
 void getFrameRate(Uint32 then, Uint32 frames);
 void update(void* gameObjects[], stateVariables* sv);
 void render(void* gameObjects[], SDL_Surface* fenetre);
+Uint32 timeLeft(Uint32 nextTime);
 
 #endif
