@@ -2,7 +2,6 @@
 #define GAMEOBJECTS_H_INCLUDED
 
 #include "ennemi.h"
-#include <SDL/SDL.h>
 
 typedef struct
 {
