@@ -1,6 +1,8 @@
 #ifndef ENNEMI_H
 #define ENNEMI_H
+#include "jeu.h"
 #include <SDL/SDL_image.h>
+#include <stdbool.h>
 
 typedef struct
 {
@@ -11,7 +13,9 @@ typedef struct
     int currentAnimFrameIndex;
     int direction;
     int etat;
-    int collision;
+    int didCollide;
+    bool isActive;
+    int xSpeed, ySpeed;
 } Ennemi;
 
 void initEnnemi(Ennemi* e);
@@ -21,5 +25,5 @@ void deplacer(Ennemi* e);
 int collisionBB(SDL_Rect posp, SDL_Rect pose);
 void deplacerIA(Ennemi* e);
 
-void mettreAJourEnnemi(Ennemi* e, SDL_Surface* fenetre);
+void mettreAJourEnnemi(void* gameObjects, stateVariables sv);
 #endif
