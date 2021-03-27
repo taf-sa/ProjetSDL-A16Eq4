@@ -73,6 +73,14 @@ while(continuer)
                              d=1;
                              scrolling(&b,d);
                              break;
+                        case SDLK_UP:
+                             d=-2;
+                             scrolling(&b,d);
+                             break;
+                        case SDLK_DOWN:
+                             d=2;
+                             scrolling(&b,d);
+                             break;
                         default:
                              break;
                     }
