@@ -4,19 +4,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_mixer.h>
-#include <SDL/SDL_ttf.h>
-#include <time.h>
-#include <unistd.h>
+
+#define CAMERA_W 400
+#define CAMERA_H 700
+
+
 
 typedef struct background
    {
 	SDL_Surface *afficher_background;
 	SDL_Rect pos_background;
-	SDL_Rect pos_background2;
-	SDL_Surface *calque_background;
-        SDL_Rect position;
+        SDL_Rect pos;
+
    }background;
 
 void initialiser_background(background *b);

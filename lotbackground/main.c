@@ -14,11 +14,18 @@ int main(int argc, char *argv[])
 
  background b;
  SDL_Surface* screen  = NULL;
- int continuer=1;
+ int d,continuer=1;
  SDL_Event event;
+ Mix_Music *musique; //Création d'un pointeur de type Mix_Music
+ Mix_Chunk *clic;
+ 
 
- SDL_Init(SDL_INIT_VIDEO); // Initialisation de la SDL
- screen=SDL_SetVideoMode(1680,1050,32,SDL_HWSURFACE | SDL_DOUBLEBUF |SDL_FULLSCREEN); // Ouverture de la fenêtre
+ if(SDL_Init(SDL_INIT_VIDEO) == -1) // Initialisation de la SDL
+  {
+    printf("failure init_SDL : %s \n",SDL_GetError ());
+    return EXIT_FAILURE;
+  }
+ screen=SDL_SetVideoMode(CAMERA_W,CAMERA_H,32,SDL_HWSURFACE | SDL_DOUBLEBUF |SDL_FULLSCREEN); // Ouverture de la fenêtre
  if(!screen)
   {
     printf("unable to set 1400x1050 video: %s\n",SDL_GetError());
@@ -26,12 +33,22 @@ int main(int argc, char *argv[])
   }
  SDL_WM_SetCaption("background ahmed", NULL);
 
+ if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
+   {
+      printf("%s", Mix_GetError());
+   }
+
+  musique = Mix_LoadMUS("faded.mp3"); //Chargement de la musique
+  Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
+
  initialiser_background(&b);
- 
+ SDL_EnableKeyRepeat (SDL_DEFAULT_REPEAT_DELAY,SDL_DEFAULT_REPEAT_INTERVAL);
+
+
 while(continuer)
     {
 
-	afficher_background(b,screen);
+	
         
   
         while (SDL_PollEvent(&event))
@@ -48,16 +65,28 @@ while(continuer)
                         case SDLK_ESCAPE:
                              continuer = 0;
                              break;
+                        case SDLK_LEFT:
+                             d=-1;
+                             scrolling(&b,d);
+                             break;
+                        case SDLK_RIGHT:
+                             d=1;
+                             scrolling(&b,d);
+                             break;
                         default:
                              break;
                     }
+                    break;
          
              }
         
         }
+        afficher_background(b,screen);
         SDL_Flip(screen);
         
     }
+SDL_FreeSurface(screen);
+SDL_FreeSurface(b.afficher_background);
 SDL_Quit(); // Arrêt de la SDL
 return EXIT_SUCCESS; // Fermeture du programme
 }
