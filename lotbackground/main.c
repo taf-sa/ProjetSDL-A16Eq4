@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
  int d,continuer=1;
  SDL_Event event;
  Mix_Music *musique; //Création d'un pointeur de type Mix_Music
- Mix_Chunk *clic;
+ int volume;
  
 
  if(SDL_Init(SDL_INIT_VIDEO) == -1) // Initialisation de la SDL
@@ -37,8 +37,9 @@ int main(int argc, char *argv[])
    {
       printf("%s", Mix_GetError());
    }
-
-  musique = Mix_LoadMUS("faded.mp3"); //Chargement de la musique
+  volume=MIX_MAX_VOLUME / 4;
+  Mix_VolumeMusic(volume); 
+  musique = Mix_LoadMUS("music.mp3"); //Chargement de la musique
   Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
 
  initialiser_background(&b);
@@ -68,10 +69,20 @@ while(continuer)
                         case SDLK_LEFT:
                              d=-1;
                              scrolling(&b,d);
+                             if (volume>0)
+                               {
+                                 volume--;
+                               }
+                               Mix_VolumeMusic(volume);
                              break;
                         case SDLK_RIGHT:
                              d=1;
                              scrolling(&b,d);
+                             if (volume<128)
+                               {
+                                 volume++;
+                               }
+                               Mix_VolumeMusic(volume);
                              break;
                         case SDLK_UP:
                              d=-2;
@@ -93,6 +104,7 @@ while(continuer)
         SDL_Flip(screen);
         
     }
+Mix_CloseAudio(); //Fermeture de l'API
 SDL_FreeSurface(screen);
 SDL_FreeSurface(b.afficher_background);
 SDL_Quit(); // Arrêt de la SDL

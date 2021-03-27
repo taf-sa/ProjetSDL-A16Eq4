@@ -13,7 +13,7 @@ void initialiser_background(background *b)
         b->pos.x=0;
         b->pos.y=0;
 	b->pos_background.x=0;
-	b->pos_background.y=0;
+	b->pos_background.y=b->afficher_background->h*0.5;
 	b->pos_background.h=b->afficher_background->h*0.75;
 	b->pos_background.w=b->afficher_background->w*0.25;
 }
