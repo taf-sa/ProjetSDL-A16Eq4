@@ -62,20 +62,20 @@ int resolution (int * running,int *run )
        case SDL_KEYDOWN : 
             switch( event.key.keysym.sym )
                 {
-			  case 1: SDLK_a: 
+			  case SDLK_a: 
 			  r=1;
 
 			   break ;
-			   case 2:  SDLK_z :
+			   case SDLK_z :
 			   r=2;
 
 			   break;
-			   case 3: SDLK_e: 
+			   case SDLK_e: 
 			   r=3 ;
 
 			   break;
 			    }
-       break ;
+     break ;
 
                  
 	}
