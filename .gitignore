@@ -12,7 +12,5 @@
 [._]*.sw[a-p]
 
 tags
-savior
-lot*
 
 build/
