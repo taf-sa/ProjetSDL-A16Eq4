@@ -24,6 +24,7 @@ void deplacer(Ennemi* e);
 int collisionBB(SDL_Rect posp, SDL_Rect pose);
 void deplacerIA(Ennemi* e);
 int sinMovement();
+int randMov();
 
 void mettreAJourEnnemi(Ennemi* eo, void** gameObjects, stateVariables sv);
 void cleanEnnemi(Ennemi*);

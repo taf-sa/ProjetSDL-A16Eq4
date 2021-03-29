@@ -3,6 +3,7 @@
 #include "outils.h"
 #include <SDL/SDL_timer.h>
 #include <math.h>
+#include <time.h>
 
 #define nbAnimationFrames 23
 #define animationRate 10
@@ -118,5 +119,14 @@ int sinMovement()
     y = (int)A * sin(angle * 2 * 3.141 * frequency * t + phi);
     printf("%d\n", y);
     return y;
+}
+
+int randMov()
+{
+
+    time_t t;
+
+    srand((unsigned)time(&t));
+    return rand() % 50;
 }
 
