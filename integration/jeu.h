@@ -1,15 +1,20 @@
 #ifndef JEU_H_INCLUDED
 #define JEU_H_INCLUDED
+#include "background.h"
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
 #include <stdbool.h>
 
 typedef struct
 {
     int debug_flip, numsprites;
-    bool done, winResized;
     int winWidth, winHeight;
+    int volume;
+    bool done, winResized;
+    background bg;
     Uint32 videoFlags;
     Uint8 video_bpp;
+    Mix_Music* musique;
     SDL_Surface* fenetre;
     SDL_Surface* icon;
 } stateVariables;

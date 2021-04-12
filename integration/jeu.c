@@ -38,6 +38,15 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
         printf("IMG_Init: %s\n", IMG_GetError());
     }
 
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
+    {
+        printf("%s", Mix_GetError());
+    }
+    sv->volume = MIX_MAX_VOLUME / 4;
+    Mix_VolumeMusic(sv->volume);
+    sv->musique = Mix_LoadMUS("music.mp3"); //Chargement de la musique
+    Mix_PlayMusic(sv->musique, -1); //Jouer infiniment la musique
+
     initStateVariables(sv);
 
     handleArguments(argc, argv, sv);
@@ -86,15 +95,18 @@ void render(void* gameObjects[], SDL_Surface* fenetre)
 
 void clean()
 {
-    printf("Quitting SDL_image.\n");
+    printf("Quitting SDL_mixer...");
+    Mix_CloseAudio();
+    printf("Quitting SDL_image...\n");
     IMG_Quit();
-    printf("Quiting SDL.\n");
+    printf("Quiting SDL...\n");
     SDL_Quit();
     printf("Quiting....\n");
 }
 
 void freeSurfaces(stateVariables* sv)
 {
+    SDL_FreeSurface(sv->bg.afficher_background);
     SDL_FreeSurface(sv->icon);
     SDL_FreeSurface(sv->fenetre);
 }
@@ -194,6 +206,8 @@ void handleArguments(int argc, char* argv[], stateVariables* sv)
 void handleEvents(stateVariables* sv)
 {
     SDL_Event event;
+    int d;
+    int pasavancement = 5;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_MOUSEBUTTONDOWN:
@@ -215,14 +229,37 @@ void handleEvents(stateVariables* sv)
             case SDLK_ESCAPE:
                 sv->done = true;
                 break;
+            case SDLK_LEFT:
+                d = 1;
+                scrolling(&sv->bg, d, pasavancement);
+                if (sv->volume > 0) {
+                    sv->volume--;
+                }
+                Mix_VolumeMusic(sv->volume);
+                break;
+            case SDLK_RIGHT:
+                d = 0;
+                scrolling(&sv->bg, d, pasavancement);
+                if (sv->volume < 128) {
+                    sv->volume++;
+                }
+                Mix_VolumeMusic(sv->volume);
+                break;
+            case SDLK_UP:
+                d = 2;
+                scrolling(&sv->bg, d, pasavancement);
+                break;
+            case SDLK_DOWN:
+                d = 3;
+                scrolling(&sv->bg, d, pasavancement);
+                break;
             default:
                 break;
             }
-            break;
-
-        deflaut:
-            break;
         }
+        break;
+
+    deflaut:
+        break;
     }
 }
-
