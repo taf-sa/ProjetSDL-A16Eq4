@@ -1,5 +1,5 @@
 CC  = gcc 
-CFLAGS = -Og -g
+CFLAGS = -std=gnu99 -Og -g
 CSDL = `sdl-config --libs --cflags` -lSDL_ttf -lSDL_image -lSDL_mixer
 HEADERS = $(wildcard *.h)
 SOURCES = $(wildcard *.c) 

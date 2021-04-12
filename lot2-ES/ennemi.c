@@ -22,14 +22,15 @@ void initEnnemi(Ennemi* e)
     e->direction = 0;
     e->etat = 0;
     e->isActive = true;
-    e->xSpeed = 0.5;
+    e->xSpeed = 0.7;
     e->ySpeed = 0.0;
 }
 
 void afficherEnnemi(Ennemi e, SDL_Surface* fenetre)
 {
-    SDL_FillRect(fenetre, &e.pos, SDL_MapRGB(e.image->format, 0, 0, 0));
+    SDL_FillRect(fenetre, NULL, SDL_MapRGB(e.image->format, 0, 0, 0));
     /** SDL_UpdateRect(fenetre, 0, 0, 0, 0); */
+
     SDL_BlitSurface(e.image, &(e.animFrame), fenetre, &e.pos);
 }
 
@@ -37,9 +38,9 @@ void animerEnnemi(Ennemi* e)
 {
     int hold = (((SDL_GetTicks() - e->animStartTime) * animationRate / 1000) % nbAnimationFrames);
     // TODO animation frame rate depends on game loop frequency set timer? SDL_SetTimer()?
-    /** if (e->currentAnimFrame == 23) */
-    /**     e->currentAnimFrame = 0; */
-    /** e->animFrame.x = (++(e->currentAnimFrame)) * (e->animFrame.w); */
+    /** if (e->currentanimframeIndex == 23) // modulo */
+    /**     e->currentanimframeIndex = 0; */
+    /** e->animframe.x = (++(e->currentanimframeIndex)) * (e->animframe.w); */
 
     e->animFrame.x = hold * e->animFrame.w;
 }
@@ -117,7 +118,6 @@ int sinMovement()
     float frequency = (float)1 / 3;
 
     y = (int)A * sin(angle * 2 * 3.141 * frequency * t + phi);
-    printf("%d\n", y);
     return y;
 }
 
@@ -125,7 +125,6 @@ int randMov()
 {
 
     time_t t;
-
     srand((unsigned)time(&t));
     return rand() % 50;
 }

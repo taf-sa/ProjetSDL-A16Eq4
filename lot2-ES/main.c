@@ -43,5 +43,5 @@ int main(int argc, char* argv[])
     }
 
     SDL_FreeSurface(sv.fenetre);
-    return 0;
+    return EXIT_SUCCESS;
 }
