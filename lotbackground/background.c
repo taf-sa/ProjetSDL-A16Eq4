@@ -13,34 +13,34 @@ void initialiser_background(background *b)
         b->pos.x=0;
         b->pos.y=0;
 	b->pos_background.x=0;
-	b->pos_background.y=b->afficher_background->h*0.5;
-	b->pos_background.h=b->afficher_background->h*0.75;
-	b->pos_background.w=b->afficher_background->w*0.25;
+	b->pos_background.y=0;
+	b->pos_background.h=b->afficher_background->h;
+	b->pos_background.w=b->afficher_background->w;
 }
 void afficher_background(background b,SDL_Surface *screen)
 {
-	SDL_BlitSurface(b.afficher_background,&(b.pos_background),screen,&(b.pos));
+	SDL_BlitSurface(b.afficher_background,&(b.pos_background),screen,NULL);
 	SDL_Flip(screen);
 }
 
-void scrolling(background *b,int direction)
+void scrolling(background *b,int direction,int pasavancement)
 {
-  if ((direction==1)&&(b->pos_background.w - b->pos_background.x != CAMERA_W))
+  if ((direction==0)&&(b->pos_background.w - b->pos_background.x > CAMERA_W))
      {
-       b->pos_background.x+=5;
+       b->pos_background.x+=pasavancement;
      }
   else 
-    if ((direction==-1)&&(b->pos_background.x != 0))
+    if ((direction==1)&&(b->pos_background.x > pasavancement))
      {
-       b->pos_background.x=b->pos_background.x-5;
+       b->pos_background.x=b->pos_background.x-pasavancement;
      }
   else
-     if ((direction==2)&&(b->pos_background.h - b->pos_background.y != CAMERA_H))
+     if ((direction==3)&&(b->pos_background.h - b->pos_background.y < CAMERA_H))
      {
        b->pos_background.y+=5;
      }
   else 
-    if ((direction==-2)&&(b->pos_background.y != 0))
+    if ((direction==2)&&(b->pos_background.y > 0))
      {
        b->pos_background.y=b->pos_background.y-5;
      }

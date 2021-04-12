@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
  SDL_Event event;
  Mix_Music *musique; //Création d'un pointeur de type Mix_Music
  int volume;
+ int pasavancement=5;
  
 
  if(SDL_Init(SDL_INIT_VIDEO) == -1) // Initialisation de la SDL
@@ -25,10 +26,10 @@ int main(int argc, char *argv[])
     printf("failure init_SDL : %s \n",SDL_GetError ());
     return EXIT_FAILURE;
   }
- screen=SDL_SetVideoMode(CAMERA_W,CAMERA_H,32,SDL_HWSURFACE | SDL_DOUBLEBUF |SDL_FULLSCREEN); // Ouverture de la fenêtre
+ screen=SDL_SetVideoMode(CAMERA_W,CAMERA_H,32,SDL_HWSURFACE | SDL_DOUBLEBUF); // Ouverture de la fenêtre
  if(!screen)
   {
-    printf("unable to set 1400x1050 video: %s\n",SDL_GetError());
+    printf("unable to set video: %s\n",SDL_GetError());
     return (-1);
   }
  SDL_WM_SetCaption("background ahmed", NULL);
@@ -67,8 +68,8 @@ while(continuer)
                              continuer = 0;
                              break;
                         case SDLK_LEFT:
-                             d=-1;
-                             scrolling(&b,d);
+                             d=1;
+                             scrolling(&b,d,pasavancement);
                              if (volume>0)
                                {
                                  volume--;
@@ -76,8 +77,8 @@ while(continuer)
                                Mix_VolumeMusic(volume);
                              break;
                         case SDLK_RIGHT:
-                             d=1;
-                             scrolling(&b,d);
+                             d=0;
+                             scrolling(&b,d,pasavancement);
                              if (volume<128)
                                {
                                  volume++;
@@ -85,12 +86,12 @@ while(continuer)
                                Mix_VolumeMusic(volume);
                              break;
                         case SDLK_UP:
-                             d=-2;
-                             scrolling(&b,d);
+                             d=2;
+                             scrolling(&b,d,pasavancement);
                              break;
                         case SDLK_DOWN:
-                             d=2;
-                             scrolling(&b,d);
+                             d=3;
+                             scrolling(&b,d,pasavancement);
                              break;
                         default:
                              break;
