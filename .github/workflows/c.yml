@@ -3,10 +3,8 @@ name: Build status(lot2)
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
-    branches: [ main ]
+    paths:
+      - lot2-ES/**
 
 jobs:
   build:
