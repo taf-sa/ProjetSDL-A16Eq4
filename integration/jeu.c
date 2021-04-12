@@ -41,6 +41,10 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
 
     handleArguments(argc, argv, sv);
 
+    sv->icon = IMG_Load("ressources/icon.png");
+    SDL_WM_SetIcon(sv->icon, NULL);
+    SDL_WM_SetCaption("Savior", NULL);
+
     screen = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
 
     if (screen == NULL) {
@@ -48,8 +52,6 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
             sv->winWidth, sv->winHeight, sv->video_bpp, SDL_GetError());
         exit(-1);
     }
-
-    SDL_WM_SetCaption("Savior", "testIcon");
 
     // sv->videoFlags & SDL_HWSURFACE is true but not screen->flags & SDL_HWSURFACE
     // SDL uses X11 video driver by default and it can't access video hardware
@@ -87,6 +89,12 @@ void clean()
     printf("Quiting SDL.\n");
     SDL_Quit();
     printf("Quiting....\n");
+}
+
+void freeSurfaces(stateVariables* sv)
+{
+    SDL_FreeSurface(sv->icon);
+    SDL_FreeSurface(sv->fenetre);
 }
 
 void getFrameRate(Uint32 then, Uint32 frames)

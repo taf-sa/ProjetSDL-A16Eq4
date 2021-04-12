@@ -11,12 +11,14 @@ typedef struct
     Uint32 videoFlags;
     Uint8 video_bpp;
     SDL_Surface* fenetre;
+    SDL_Surface* icon;
 } stateVariables;
 
 void handleArguments(int argc, char* argv[], stateVariables* sv);
 SDL_Surface* init(int argc, char* argv[], stateVariables* sv);
 void initStateVariables(stateVariables* sv);
 void clean();
+void freeSurfaces(stateVariables* sv);
 Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp);
 void handleEvents(SDL_Surface* fenetre, stateVariables* sv);
 void getFrameRate(Uint32 then, Uint32 frames);

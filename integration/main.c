@@ -15,6 +15,6 @@ int main(int argc, char* argv[])
         update(gameObjects, &sv);
     }
 
-    SDL_FreeSurface(sv.fenetre);
+    freeSurfaces(&sv);
     return EXIT_SUCCESS;
 }
