@@ -55,7 +55,7 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     SDL_WM_SetIcon(sv->icon, NULL);
     SDL_WM_SetCaption("Savior", NULL);
 
-    screen = SDL_SetVideoMode(800, 307, sv->video_bpp, sv->videoFlags);
+    screen = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
     /** screen = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags); */
 
     if (screen == NULL) {
@@ -131,8 +131,8 @@ void initStateVariables(stateVariables* sv)
 {
     sv->numsprites = NUM_SPRITES;
     sv->videoFlags = SDL_HWSURFACE | SDL_ANYFORMAT | SDL_DOUBLEBUF | SDL_RESIZABLE;
-    sv->winWidth = 640;
-    sv->winHeight = 480;
+    sv->winWidth = CAMERA_W;
+    sv->winHeight = CAMERA_H;
     sv->video_bpp = 32;
     sv->debug_flip = 0;
     sv->done = false;
