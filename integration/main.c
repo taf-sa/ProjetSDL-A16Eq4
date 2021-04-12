@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 
     while (!sv.done) {
 
-        handleEvents(sv.fenetre, &sv);
+        handleEvents(&sv);
         render(gameObjects, sv.fenetre);
         update(gameObjects, &sv);
 

@@ -46,7 +46,8 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     SDL_WM_SetIcon(sv->icon, NULL);
     SDL_WM_SetCaption("Savior", NULL);
 
-    screen = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
+    screen = SDL_SetVideoMode(800, 307, sv->video_bpp, sv->videoFlags);
+    /** screen = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags); */
 
     if (screen == NULL) {
         fprintf(stderr, "Couldn't set %dx%dx%d video mode: %s\n",
@@ -213,30 +214,6 @@ void handleEvents(stateVariables* sv)
             switch (event.key.keysym.sym) {
             case SDLK_ESCAPE:
                 sv->done = true;
-                break;
-            case SDLK_LEFT:
-                d = -1;
-                scrolling(&b, d);
-                if (volume > 0) {
-                    volume--;
-                }
-                Mix_VolumeMusic(volume);
-                break;
-            case SDLK_RIGHT:
-                d = 1;
-                scrolling(&b, d);
-                if (volume < 128) {
-                    volume++;
-                }
-                Mix_VolumeMusic(volume);
-                break;
-            case SDLK_UP:
-                d = -2;
-                scrolling(&b, d);
-                break;
-            case SDLK_DOWN:
-                d = 2;
-                scrolling(&b, d);
                 break;
             default:
                 break;

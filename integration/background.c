@@ -9,7 +9,7 @@ void initialiser_background(background* b)
 {
 
     b->afficher_background = NULL;
-    b->afficher_background = IMG_Load("background.jpg");
+    b->afficher_background = IMG_Load("ressources/background.jpg");
     b->pos.x = 0;
     b->pos.y = 0;
     b->pos_background.x = 0;
