@@ -20,7 +20,7 @@ void initStateVariables(stateVariables* sv);
 void clean();
 void freeSurfaces(stateVariables* sv);
 Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp);
-void handleEvents(SDL_Surface* fenetre, stateVariables* sv);
+void handleEvents(stateVariables* sv);
 void getFrameRate(Uint32 then, Uint32 frames);
 void update(void* gameObjects[], stateVariables* sv);
 void render(void* gameObjects[], SDL_Surface* fenetre);

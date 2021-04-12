@@ -1,4 +1,5 @@
 #include "jeu.h"
+#include "background.h"
 
 #define NUM_SPRITES 100
 
@@ -189,18 +190,14 @@ void handleArguments(int argc, char* argv[], stateVariables* sv)
     }
 }
 
-void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
+void handleEvents(stateVariables* sv)
 {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_MOUSEBUTTONDOWN:
             // is this working?
-            SDL_WarpMouse(fenetre->w / 2, fenetre->h / 2);
-            break;
-        case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_ESCAPE)
-                sv->done = true;
+            SDL_WarpMouse(sv->fenetre->w / 2, sv->fenetre->h / 2);
             break;
         case SDL_VIDEORESIZE:
             // resize the window
@@ -211,8 +208,44 @@ void handleEvents(SDL_Surface* fenetre, stateVariables* sv)
         case SDL_QUIT:
             sv->done = true;
             break;
+
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+            case SDLK_ESCAPE:
+                sv->done = true;
+                break;
+            case SDLK_LEFT:
+                d = -1;
+                scrolling(&b, d);
+                if (volume > 0) {
+                    volume--;
+                }
+                Mix_VolumeMusic(volume);
+                break;
+            case SDLK_RIGHT:
+                d = 1;
+                scrolling(&b, d);
+                if (volume < 128) {
+                    volume++;
+                }
+                Mix_VolumeMusic(volume);
+                break;
+            case SDLK_UP:
+                d = -2;
+                scrolling(&b, d);
+                break;
+            case SDLK_DOWN:
+                d = 2;
+                scrolling(&b, d);
+                break;
+            default:
+                break;
+            }
+            break;
+
         deflaut:
             break;
         }
     }
 }
+
