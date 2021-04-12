@@ -23,7 +23,7 @@ void handleArguments(int argc, char* argv[], stateVariables* sv);
 SDL_Surface* init(int argc, char* argv[], stateVariables* sv);
 void initStateVariables(stateVariables* sv);
 void clean();
-void freeSurfaces(stateVariables* sv);
+void freeMemory(stateVariables* sv);
 Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp);
 void handleEvents(stateVariables* sv);
 void getFrameRate(Uint32 then, Uint32 frames);

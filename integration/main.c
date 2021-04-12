@@ -21,6 +21,6 @@ int main(int argc, char* argv[])
         afficher_background(sv.bg, sv.fenetre);
     }
 
-    freeSurfaces(&sv);
+    freeMemory(&sv);
     return EXIT_SUCCESS;
 }
