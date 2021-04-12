@@ -44,7 +44,7 @@ SDL_Surface* init(int argc, char* argv[], stateVariables* sv)
     }
     sv->volume = MIX_MAX_VOLUME / 4;
     Mix_VolumeMusic(sv->volume);
-    sv->musique = Mix_LoadMUS("music.mp3"); //Chargement de la musique
+    sv->musique = Mix_LoadMUS("ressources/music.mp3"); //Chargement de la musique
     Mix_PlayMusic(sv->musique, -1); //Jouer infiniment la musique
 
     initStateVariables(sv);
@@ -104,8 +104,9 @@ void clean()
     printf("Quiting....\n");
 }
 
-void freeSurfaces(stateVariables* sv)
+void freeMemory(stateVariables* sv)
 {
+    Mix_FreeMusic(sv->musique);
     SDL_FreeSurface(sv->bg.afficher_background);
     SDL_FreeSurface(sv->icon);
     SDL_FreeSurface(sv->fenetre);
