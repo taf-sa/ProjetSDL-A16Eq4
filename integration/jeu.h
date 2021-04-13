@@ -28,7 +28,7 @@ Uint32 fastestFlags(Uint32 flags, int width, int height, int bpp);
 void handleEvents(stateVariables* sv);
 void getFrameRate(Uint32 then, Uint32 frames);
 void update(void* gameObjects[], stateVariables* sv);
-void render(void* gameObjects[], SDL_Surface* fenetre);
+void render(void* gameObjects[], stateVariables sv);
 Uint32 timeLeft(Uint32 nextTime);
 
 #endif

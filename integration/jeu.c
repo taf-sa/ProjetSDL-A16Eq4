@@ -1,5 +1,6 @@
 #include "jeu.h"
 #include "background.h"
+#include "gameObjects.h"
 
 #define NUM_SPRITES 100
 
@@ -84,11 +85,16 @@ void update(void** gameObjects, stateVariables* sv)
         sv->winResized = false;
         sv->fenetre = SDL_SetVideoMode(sv->winWidth, sv->winHeight, sv->video_bpp, sv->videoFlags);
     }
+
+    mettreAJourEnnemi(&((EnemyObject*)gameObjects[0])->e, gameObjects, *sv);
 }
 
-void render(void* gameObjects[], SDL_Surface* fenetre)
+void render(void* gameObjects[], stateVariables sv)
 {
-    if (SDL_Flip(fenetre) == -1) {
+    afficher_background(sv.bg, sv.fenetre);
+    afficherEnnemi(((EnemyObject*)gameObjects[0])->e, sv.fenetre);
+
+    if (SDL_Flip(sv.fenetre) == -1) {
         printf("Erreur: SDL_Flip() in render()");
     }
 }
